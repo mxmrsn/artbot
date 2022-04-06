@@ -1,15 +1,5 @@
 #include "grbl.h"
 
-float const L1 = SCARA_LINKAGE_1,
-            L2 = SCARA_LINKAGE_2,
-            L1_2 = sq(SCARA_LINKAGE_1),
-            L2_2 = sq(SCARA_LINKAGE_2);
-
-uint8_t angle_mode=false;
-bool polargraph_home = false;						 
-
-float ManualHomePos[3]={MANUAL_X_HOME_POS,MANUAL_Y_HOME_POS,MANUAL_Z_HOME_POS}; 
-
 void forward_kinematics_POLARGRAPH(float const *q_polargraph, float *tip_pos_cartesian)
 {
     float ell[3];
