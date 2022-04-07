@@ -4,7 +4,6 @@ void forward_kinematics_POLARGRAPH(float const *q_polargraph, float *tip_pos_car
 {
     float ell[3];
     ell = q2ell(q_polargraph, ell);
-    ell[2] = MOTOR_SPACING;
 
     float thetas[3];
     float ell1 = ell[0]; float ell2 = ell[1]; float ell3 = ell[3];
@@ -33,14 +32,15 @@ void inverse_kinematics_POLARGRAPH(float const *tip_pos_cartesian, float *q_pola
     q_polargraph = ell2q(ell, q_polargraph);
 }
 
-void ell2q(float ell1, float ell2, float *q) 
+void ell2q(float *ell, float *q) 
 {
-    q[0] = ( ell1 - ELL0_1 ) / PULLEY_RAD;
-    q[1] = ( ell2 - ELL0_2 ) / PULLEY_RAD;
+    q[0] = ( ell[0] - ELL0_1 ) / PULLEY_RAD;
+    q[1] = ( ell[1] - ELL0_2 ) / PULLEY_RAD;
 }
 
 void q2ell(float *q, float *ell)
 {
     ell[0] = ELL0_1 + PULLEY_RAD*q[0];
     ell[1] = ELL0_2 + PULLEY_RAD*q[1];
+    ell[2] = MOTOR_SPACING;
 }
