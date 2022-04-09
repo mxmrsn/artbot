@@ -12,7 +12,7 @@ void forward_kinematics_POLARGRAPH(float const *q_polargraph, float *tip_pos_car
     thetas[2] = acos( - (ell3^2 - ell1^2 - ell2^2) / (2*ell1*ell2) );
 
     tip_pos_cartesian[0] = ell1*cos(thetas[0]);
-    tip_pos_cartesian[1] = -ell1*sin(thetas[0]);
+    tip_pos_cartesian[1] = -ell1*sin(thetas[0]); // y-axis oriented downwards
 }
 
 void inverse_kinematics_POLARGRAPH(float const *tip_pos_cartesian, float *q_polargraph)

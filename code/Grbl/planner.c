@@ -274,9 +274,7 @@ uint8_t plan_check_full_buffer()
   int32_t target_steps[N_AXIS];
   float unit_vec[N_AXIS], delta_mm;
   uint8_t idx;
-#ifdef IS_SCARA
-  float target_float[N_AXIS];
-#endif
+  
   #ifdef COREXY
     target_steps[A_MOTOR] = lround(target[A_MOTOR]*settings.steps_per_mm[A_MOTOR]);
     target_steps[B_MOTOR] = lround(target[B_MOTOR]*settings.steps_per_mm[B_MOTOR]);
@@ -284,9 +282,11 @@ uint8_t plan_check_full_buffer()
     block->steps[B_MOTOR] = labs((target_steps[X_AXIS]-pl.position[X_AXIS]) - (target_steps[Y_AXIS]-pl.position[Y_AXIS]));
   #endif
 #if IS_SCARA
+  float target_float[N_AXIS];
 	inverse_kinematics_SCARA(target,target_float);
 #endif
 #if IS_POLARGRAPH
+  float target_float[N_AXIS];
   inverse_kinematics_POLARGRAPH(target,target_float);
 #endif
   for (idx=0; idx<N_AXIS; idx++) {
