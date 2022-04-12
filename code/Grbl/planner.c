@@ -283,12 +283,12 @@ uint8_t plan_check_full_buffer()
     block->steps[A_MOTOR] = labs((target_steps[X_AXIS]-pl.position[X_AXIS]) + (target_steps[Y_AXIS]-pl.position[Y_AXIS]));
     block->steps[B_MOTOR] = labs((target_steps[X_AXIS]-pl.position[X_AXIS]) - (target_steps[Y_AXIS]-pl.position[Y_AXIS]));
   #endif
-#if IS_SCARA
-	inverse_kinematics_SCARA(target,target_float);
-#endif
-#if IS_POLARGRAPH
-  inverse_kinematics_POLARGRAPH(target,target_float);
-#endif
+  #if IS_SCARA
+  	inverse_kinematics_SCARA(target,target_float);
+  #endif
+  #if IS_POLARGRAPH
+    inverse_kinematics_POLARGRAPH(target,target_float);
+  #endif
   for (idx=0; idx<N_AXIS; idx++) {
     // Calculate target position in absolute steps, number of steps for each axis, and determine max step events.
     // Also, compute individual axes distance for move and prep unit vector calculations.

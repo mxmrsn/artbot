@@ -20,17 +20,14 @@ void forward_kinematics_POLARGRAPH(float const *q_polargraph, float *tip_pos_car
 
 void inverse_kinematics_POLARGRAPH(float const *tip_pos_cartesian, float *q_polargraph)
 {
-    float px, py;
+    float px, py, px2;
     px = tip_pos_cartesian[0];
     py = tip_pos_cartesian[1];
-
-    float ell1, px2, ell2;
-    ell1 = sqrt(pow(px,2) + pow(py,2));
     px2 = (MOTOR_SPACING - px);
-    ell2 = sqrt(pow(px2,2) + pow(py,2));
 
     float ell[2];
-    ell[0] = ell1; ell[1] = ell2;
+    ell[0] = sqrt(pow(px,2) + pow(py,2));
+    ell[1] = sqrt(pow(px2,2) + pow(py,2));
 
     ell2q(ell, q_polargraph); // radians
 }

@@ -6,7 +6,7 @@ To use:
   IDE. There are details on our Github website on how to do this.
 
 - Select your Arduino Board and Serial Port in the Tools drop-down menu.
-  NOTE: Grbl only officially supports 328p-based Arduinos, like the Uno. 
+  NOTE: Grbl only officially supports 328p-based Arduinos, like the Uno.
   Using other boards will likely not work!
 
 - Then just click 'Upload'. That's it!
