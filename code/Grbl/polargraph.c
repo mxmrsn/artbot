@@ -14,15 +14,15 @@ void forward_kinematics_POLARGRAPH(float const *q_polargraph, float *tip_pos_car
     thetas[1] = acos( - (pow(ell1,2) - pow(ell2,2) - pow(ell3,2)) / (2*ell2*ell3) );
     thetas[2] = acos( - (pow(ell3,2) - pow(ell1,2) - pow(ell2,2)) / (2*ell1*ell2) );
 
-    tip_pos_cartesian[0] = ell1*cos(thetas[0]);
-    tip_pos_cartesian[1] = -ell1*sin(thetas[0]); // y-axis oriented downwards
+    tip_pos_cartesian[0] = ell1*cos(thetas[0]) + TOOL_OFFSET_X;
+    tip_pos_cartesian[1] = -ell1*sin(thetas[0]) + TOOL_OFFSET_Y; // y-axis oriented downwards
 }
 
 void inverse_kinematics_POLARGRAPH(float const *tip_pos_cartesian, float *q_polargraph)
 {
     float px, py, px2;
-    px = tip_pos_cartesian[0];
-    py = tip_pos_cartesian[1];
+    px = tip_pos_cartesian[0] - TOOL_OFFSET_X;
+    py = tip_pos_cartesian[1] - TOOL_OFFSET_Y;
     px2 = (MOTOR_SPACING - px);
 
     float ell[2];

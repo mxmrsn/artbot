@@ -12,8 +12,11 @@
 
 #define HOME_X 15.8125f*IN2MM // home tip position
 #define HOME_Y -12.0f*IN2MM
-#define ELL0_1 800.0f   // associated belt length at home - these should be computed with ik(HOME_XY)
-#define ELL0_2 800.0f
+#define ELL0_1 504.1981f   // associated belt length at home - these should be computed with ik(HOME_XY)
+#define ELL0_2 1119.3f
+
+#define TOOL_OFFSET_X = 0.0F
+#define TOOL_OFFSET_Y = -20.0f; // mm
 
 #define MOTOR_SPACING (54.75f*IN2MM) + (2.0f*44.0f)
 #define PULLEY_RAD 20.0f
