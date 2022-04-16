@@ -13,6 +13,9 @@ void forward_kinematics_POLARGRAPH(float const *q_polargraph, float *tip_pos_car
 
     tip_pos_cartesian[0] = ell1*cos(thetas[0]) + TOOL_OFFSET_X;
     tip_pos_cartesian[1] = -ell1*sin(thetas[0]) + TOOL_OFFSET_Y; // y-axis oriented downwards
+
+    printFloat_CoordValue(tip_pos_cartesian[0]);
+    printFloat_CoordValue(tip_pos_cartesian[1]);
 }
 
 void inverse_kinematics_POLARGRAPH(float const *tip_pos_cartesian, float *q_polargraph)
@@ -27,6 +30,9 @@ void inverse_kinematics_POLARGRAPH(float const *tip_pos_cartesian, float *q_pola
     ell[1] = sqrt(pow(px2,2) + pow(py,2));
 
     ell2q(ell, q_polargraph); // radians
+
+    printFloat_CoordValue(q_polargraph[0]);
+    printFloat_CoordValue(q_polargraph[1]);
 }
 
 void ell2q(float *ell, float *q)
