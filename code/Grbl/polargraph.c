@@ -7,9 +7,6 @@ void forward_kinematics_POLARGRAPH(float const *q_polargraph, float *tip_pos_car
 
     float thetas[3];
     float ell1 = ell[0]; float ell2 = ell[1]; float ell3 = ell[3];
-    // thetas[0] = acos( - (ell2^2 - ell1^2 - ell3^2) / (2*ell1*ell3) );
-    // thetas[1] = acos( - (ell1^2 - ell2^2 - ell3^2) / (2*ell2*ell3) );
-    // thetas[2] = acos( - (ell3^2 - ell1^2 - ell2^2) / (2*ell1*ell2) );
     thetas[0] = acos( - (pow(ell2,2) - pow(ell1,2) - pow(ell3,2)) / (2*ell1*ell3) );
     thetas[1] = acos( - (pow(ell1,2) - pow(ell2,2) - pow(ell3,2)) / (2*ell2*ell3) );
     thetas[2] = acos( - (pow(ell3,2) - pow(ell1,2) - pow(ell2,2)) / (2*ell1*ell2) );

@@ -1,23 +1,3 @@
-/*
-  serial.c - Low level functions for sending and recieving bytes via the serial port
-  Part of Grbl
-
-  Copyright (c) 2011-2015 Sungeun K. Jeon
-  Copyright (c) 2009-2011 Simen Svale Skogsrud
-
-  Grbl is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Grbl is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
 #include "grbl.h"
 
@@ -34,7 +14,7 @@ volatile uint8_t serial_tx_buffer_tail = 0;
 #ifdef ENABLE_XONXOFF
   volatile uint8_t flow_ctrl = XON_SENT; // Flow control state variable
 #endif
-  
+
 
 // Returns the number of bytes used in the RX serial buffer.
 uint8_t serial_get_rx_buffer_count()
@@ -67,14 +47,14 @@ void serial_init()
   #endif
   UBRR0H = UBRR0_value >> 8;
   UBRR0L = UBRR0_value;
-            
+
   // enable rx and tx
   UCSR0B |= 1<<RXEN0;
   UCSR0B |= 1<<TXEN0;
-	
+
   // enable interrupt on complete reception of a byte
   UCSR0B |= 1<<RXCIE0;
-	  
+
   // defaults to 8-bit, no parity, 1 stop bit
 }
 
@@ -87,17 +67,17 @@ void serial_write(uint8_t data) {
   if (next_head == TX_BUFFER_SIZE) { next_head = 0; }
 
   // Wait until there is space in the buffer
-  while (next_head == serial_tx_buffer_tail) { 
-    // TODO: Restructure st_prep_buffer() calls to be executed here during a long print.    
+  while (next_head == serial_tx_buffer_tail) {
+    // TODO: Restructure st_prep_buffer() calls to be executed here during a long print.
     if (sys_rt_exec_state & EXEC_RESET) { return; } // Only check for abort to avoid an endless loop.
   }
 
   // Store data and advance head
   serial_tx_buffer[serial_tx_buffer_head] = data;
   serial_tx_buffer_head = next_head;
-  
+
   // Enable Data Register Empty Interrupt to make sure tx-streaming is running
-  UCSR0B |=  (1 << UDRIE0); 
+  UCSR0B |=  (1 << UDRIE0);
 }
 
 
@@ -105,27 +85,27 @@ void serial_write(uint8_t data) {
 ISR(SERIAL_UDRE)
 {
   uint8_t tail = serial_tx_buffer_tail; // Temporary serial_tx_buffer_tail (to optimize for volatile)
-  
+
   #ifdef ENABLE_XONXOFF
-    if (flow_ctrl == SEND_XOFF) { 
-      UDR0 = XOFF_CHAR; 
-      flow_ctrl = XOFF_SENT; 
-    } else if (flow_ctrl == SEND_XON) { 
-      UDR0 = XON_CHAR; 
-      flow_ctrl = XON_SENT; 
+    if (flow_ctrl == SEND_XOFF) {
+      UDR0 = XOFF_CHAR;
+      flow_ctrl = XOFF_SENT;
+    } else if (flow_ctrl == SEND_XON) {
+      UDR0 = XON_CHAR;
+      flow_ctrl = XON_SENT;
     } else
   #endif
-  { 
-    // Send a byte from the buffer	
+  {
+    // Send a byte from the buffer
     UDR0 = serial_tx_buffer[tail];
-  
+
     // Update tail position
     tail++;
     if (tail == TX_BUFFER_SIZE) { tail = 0; }
-  
+
     serial_tx_buffer_tail = tail;
   }
-  
+
   // Turn off Data Register Empty Interrupt to stop tx-streaming if this concludes the transfer
   if (tail == serial_tx_buffer_head) { UCSR0B &= ~(1 << UDRIE0); }
 }
@@ -139,18 +119,18 @@ uint8_t serial_read()
     return SERIAL_NO_DATA;
   } else {
     uint8_t data = serial_rx_buffer[tail];
-    
+
     tail++;
     if (tail == RX_BUFFER_SIZE) { tail = 0; }
     serial_rx_buffer_tail = tail;
 
     #ifdef ENABLE_XONXOFF
-      if ((serial_get_rx_buffer_count() < RX_BUFFER_LOW) && flow_ctrl == XOFF_SENT) { 
+      if ((serial_get_rx_buffer_count() < RX_BUFFER_LOW) && flow_ctrl == XOFF_SENT) {
         flow_ctrl = SEND_XON;
         UCSR0B |=  (1 << UDRIE0); // Force TX
       }
     #endif
-    
+
     return data;
   }
 }
@@ -160,7 +140,7 @@ ISR(SERIAL_RX)
 {
   uint8_t data = UDR0;
   uint8_t next_head;
-  
+
   // Pick off realtime command characters directly from the serial stream. These characters are
   // not passed into the buffer, but these set system state flag bits for realtime execution.
   switch (data) {
@@ -169,29 +149,29 @@ ISR(SERIAL_RX)
     case CMD_FEED_HOLD:     bit_true_atomic(sys_rt_exec_state, EXEC_FEED_HOLD); break; // Set as true
     case CMD_SAFETY_DOOR:   bit_true_atomic(sys_rt_exec_state, EXEC_SAFETY_DOOR); break; // Set as true
     case CMD_RESET:         mc_reset(); break; // Call motion control reset routine.
-    default: // Write character to buffer    
+    default: // Write character to buffer
       next_head = serial_rx_buffer_head + 1;
       if (next_head == RX_BUFFER_SIZE) { next_head = 0; }
-    
+
       // Write data to buffer unless it is full.
       if (next_head != serial_rx_buffer_tail) {
         serial_rx_buffer[serial_rx_buffer_head] = data;
-        serial_rx_buffer_head = next_head;    
-        
+        serial_rx_buffer_head = next_head;
+
         #ifdef ENABLE_XONXOFF
           if ((serial_get_rx_buffer_count() >= RX_BUFFER_FULL) && flow_ctrl == XON_SENT) {
             flow_ctrl = SEND_XOFF;
             UCSR0B |=  (1 << UDRIE0); // Force TX
-          } 
+          }
         #endif
-        
+
       }
       //TODO: else alarm on overflow?
   }
 }
 
 
-void serial_reset_read_buffer() 
+void serial_reset_read_buffer()
 {
   serial_rx_buffer_tail = serial_rx_buffer_head;
 

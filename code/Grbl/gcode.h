@@ -1,32 +1,12 @@
-/*
-  gcode.h - rs274/ngc parser.
-  Part of Grbl
-
-  Copyright (c) 2011-2015 Sungeun K. Jeon
-  Copyright (c) 2009-2011 Simen Svale Skogsrud
-  
-  Grbl is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Grbl is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
 #ifndef gcode_h
 #define gcode_h
 
 
-// Define modal group internal numbers for checking multiple command violations and tracking the 
+// Define modal group internal numbers for checking multiple command violations and tracking the
 // type of command that is called in the block. A modal group is a group of g-code commands that are
 // mutually exclusive, or cannot exist on the same line, because they each toggle a state or execute
-// a unique motion. These are defined in the NIST RS274-NGC v3 g-code standard, available online, 
+// a unique motion. These are defined in the NIST RS274-NGC v3 g-code standard, available online,
 // and are similar/identical to other g-code interpreters by manufacturers (Haas,Fanuc,Mazak,etc).
 // NOTE: Modal group define values must be sequential and starting from zero.
 #define MODAL_GROUP_G0 0 // [G4,G10,G28,G28.1,G30,G30.1,G53,G92,G92.1] Non-modal
@@ -155,7 +135,7 @@ typedef struct {
   uint8_t program_flow;    // {M0,M1,M2,M30}
   uint8_t coolant;         // {M7,M8,M9}
   uint8_t spindle;         // {M3,M4,M5}
-} gc_modal_t;  
+} gc_modal_t;
 
 typedef struct {
   float f;         // Feed
@@ -173,7 +153,7 @@ typedef struct {
 
 typedef struct {
   gc_modal_t modal;
-  
+
   float spindle_speed;          // RPM
   float feed_rate;              // Millimeters/min
   uint8_t tool;                 // Tracks tool number. NOT USED.
@@ -182,9 +162,9 @@ typedef struct {
   float position[N_AXIS];       // Where the interpreter considers the tool to be at this point in the code
 
   float coord_system[N_AXIS];   // Current work coordinate system (G54+). Stores offset from absolute machine
-                                // position in mm. Loaded from EEPROM when called.  
+                                // position in mm. Loaded from EEPROM when called.
   float coord_offset[N_AXIS];   // Retains the G92 coordinate offset (work coordinates) relative to
-                                // machine zero in mm. Non-persistent. Cleared upon reset and boot.    
+                                // machine zero in mm. Non-persistent. Cleared upon reset and boot.
   float tool_length_offset;     // Tracks tool length offset value when enabled.
 } parser_state_t;
 extern parser_state_t gc_state;
@@ -207,6 +187,6 @@ void gc_init();
 uint8_t gc_execute_line(char *line);
 
 // Set g-code parser position. Input in steps.
-void gc_sync_position(); 
+void gc_sync_position();
 
 #endif
