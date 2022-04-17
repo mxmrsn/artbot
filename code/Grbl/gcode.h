@@ -1,4 +1,3 @@
-
 #ifndef gcode_h
 #define gcode_h
 

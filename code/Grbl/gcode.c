@@ -249,6 +249,12 @@ uint8_t gc_execute_line(char *line)
 			angle_mode=!angle_mode;
 		  break;
 #endif
+
+#ifdef IS_POLARGRAPH
+      case 95:
+      angle_mode=!angle_mode;
+      break;
+#endif
           default: FAIL(STATUS_GCODE_UNSUPPORTED_COMMAND); // [Unsupported G command]
         }
         if (mantissa > 0) { FAIL(STATUS_GCODE_COMMAND_VALUE_NOT_INTEGER); } // [Unsupported or invalid Gxx.x command]

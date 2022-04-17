@@ -4,10 +4,9 @@
 
 #include "grbl.h"
 
-#ifdef SCARA
-	#define IS_SCARA true
-#endif
-
+// #ifdef SCARA
+// 	#define IS_SCARA true
+// #endif
 
 // Length of inner and outer support arms. Measure arm lengths precisely.
 #define SCARA_LINKAGE_1 160.0f	// 160mm
@@ -29,7 +28,7 @@
 
 extern float ManualHomePos[3];
 extern bool scara_home;
-void inverse_kinematics(float const *cartesian, float *f_scara);
+void inverse_kinematics_SCARA(float const *cartesian, float *f_scara);
 void forward_kinematics_SCARA(float const *f_scara, float *cartesian);
 void scara_report_positions(void) ;
 

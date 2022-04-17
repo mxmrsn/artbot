@@ -21,13 +21,10 @@
 #define CMD_SAFETY_DOOR '@'
 
 #define HOMING_INIT_LOCK // Comment to disable
-
- #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))  // NOT COMPATIBLE WITH COREXY: Homes both X-Y in one cycle.
-
+#define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))  // NOT COMPATIBLE WITH COREXY: Homes both X-Y in one cycle.
 #define N_HOMING_LOCATE_CYCLE 1 // Integer (1-128)
 
 #define N_STARTUP_LINE 2 // Integer (1-2)
-
 #define N_DECIMAL_COORDVALUE_INCH 4 // Coordinate or position value in inches
 #define N_DECIMAL_COORDVALUE_MM   3 // Coordinate or position value in mm
 #define N_DECIMAL_RATEVALUE_INCH  1 // Rate or velocity value in in/min
@@ -40,24 +37,19 @@
 #define SAFETY_DOOR_COOLANT_DELAY 1000
 
 #define ACCELERATION_TICKS_PER_SECOND 100
-
 #define ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING  // Default enabled. Comment to disable.
 
 #define TOOL_LENGTH_OFFSET_AXIS Z_AXIS // Default z-axis. Valid values are X_AXIS, Y_AXIS, or Z_AXIS.
 
 #define VARIABLE_SPINDLE // Default enabled. Comment to disable.
-
 #define SPINDLE_MAX_RPM 1000.0 // Max spindle RPM. This value is equal to 100% duty cycle on the PWM.
 #define SPINDLE_MIN_RPM 0.0    // Min spindle RPM. This value is equal to (1/256) duty cycle on the PWM.
 
 #define MINIMUM_JUNCTION_SPEED 0.0 // (mm/min)
-
 #define MINIMUM_FEED_RATE 1.0 // (mm/min)
 
 #define N_ARC_CORRECTION 12 // Integer (1-255)
-
 #define ARC_ANGULAR_TRAVEL_EPSILON 5E-7 // Float (radians)
-
 #define DWELL_TIME_STEP 50 // Integer (1-255) (milliseconds)
 
 #ifndef HOMING_CYCLE_0

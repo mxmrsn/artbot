@@ -16,8 +16,8 @@ int main(void)
   serattach();	   // Configure Servo pin
 
   memset(&sys, 0, sizeof(system_t));  // Clear all system variables
-  sys.abort = true;   // Set abort to complete initialization
-  sei(); // Enable interrupts
+  sys.abort = true;                   // Set abort to complete initialization
+  sei();                              // Enable interrupts
 
   // Check for power-up and set system alarm if homing is enabled to force homing cycle
   // by setting Grbl's alarm state. Alarm locks out all g-code commands, including the

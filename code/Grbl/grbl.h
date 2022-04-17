@@ -20,8 +20,8 @@
 #include <stdbool.h>
 
 // Define the Grbl system include files. NOTE: Do not alter organization.
-#define SCARA false
-#define POLARGRAPH true
+#define IS_SCARA false
+#define IS_POLARGRAPH true
 #include "config.h"
 #include "nuts_bolts.h"
 #include "settings.h"
