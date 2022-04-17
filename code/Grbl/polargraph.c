@@ -79,7 +79,7 @@ void q2msteps(float *q_polargraph, int32_t *msteps)
   }
 }
 
-void polargraph_report_home_pos(uint8_t idx)
+void polargraph_report_home_q(uint8_t idx)
 {
 		static float q_polargraph;
 		q_polargraph = q2msteps(sys.position, idx);

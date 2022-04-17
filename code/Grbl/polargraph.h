@@ -31,6 +31,6 @@ void q2ell(float *q, float *ell);
 void msteps2q(int32_t *steps, float *q_polargraph);
 void q2msteps(float *q_polargraph, int32_t *steps);
 
-void polargraph_report_home_pos(uint8_t idx);
+void polargraph_report_home_q(uint8_t idx);
 
 #endif

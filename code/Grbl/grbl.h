@@ -6,6 +6,9 @@
 #define GRBL_VERSION "0.9j"
 #define GRBL_VERSION_BUILD "20160726"
 
+#define IS_SCARA false
+#define IS_POLARGRAPH true
+
 // Define standard libraries used by Grbl.
 #include <avr/io.h>
 #include <avr/pgmspace.h>
@@ -20,8 +23,6 @@
 #include <stdbool.h>
 
 // Define the Grbl system include files. NOTE: Do not alter organization.
-#define IS_SCARA false
-#define IS_POLARGRAPH true
 #include "config.h"
 #include "nuts_bolts.h"
 #include "settings.h"
