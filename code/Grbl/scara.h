@@ -1,4 +1,4 @@
-/
+
 #ifndef SCARA_h
 #define SCARA_h
 

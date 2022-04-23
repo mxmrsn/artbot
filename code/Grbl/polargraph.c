@@ -1,8 +1,7 @@
 #include "grbl.h"
 
-uint8_t angle_mode = false;
+uint8_t angle_mode_pol = false;
 bool polargraph_home = false;
-
 float home_pos[3]={HOME_X,HOME_Y,HOME_Z};
 
 void forward_kinematics_POLARGRAPH(float const *q_polargraph, float *tip_pos_cartesian)
@@ -35,7 +34,7 @@ void inverse_kinematics_POLARGRAPH(float const *tip_pos_cartesian, float *q_pola
     ell[1] = sqrt(pow(px2,2) + pow(py,2));
     ell2q(ell, q_polargraph); // radians
 
-    if(!angle_mode) // task space control (ik)
+    if(!angle_mode_pol) // task space control (ik)
 		{
         q_polargraph[Z_AXIS] = tip_pos_cartesian[Z_AXIS];
 		}
@@ -82,7 +81,7 @@ void q2msteps(float *q_polargraph, int32_t *msteps)
 void polargraph_report_home_q(uint8_t idx)
 {
 		static float q_polargraph;
-		q_polargraph = q2msteps(sys.position, idx);
+		q2msteps(sys.position, idx);
 		switch(idx){
 		case 0:
 				if (polargraph_home) {

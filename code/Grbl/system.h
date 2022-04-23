@@ -69,6 +69,7 @@ volatile uint8_t sys_rt_exec_state;  // Global realtime executor bitflag variabl
 volatile uint8_t sys_rt_exec_alarm;  // Global realtime executor bitflag variable for setting various alarms.
 
 extern uint8_t angle_mode; //to use with scara
+extern uint8_t angle_mode_pol; // to use with polargraph
 
 // Initialize the serial protocol
 void system_init();

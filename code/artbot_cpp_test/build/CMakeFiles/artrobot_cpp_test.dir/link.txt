@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.0.sdk -mmacosx-version-min=10.15 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/artrobot_cpp_test.dir/src/main.cpp.o -o artrobot_cpp_test 
